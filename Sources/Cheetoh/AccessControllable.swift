@@ -48,11 +48,11 @@ extension AccessControllable {
         return environment(\.accessLevel, level)
     }
     
-    func buildAccessLevel() -> TokenSyntax {
-        if let accessLevel = syntax.accessLevel {
-            return accessLevel.keyword()
-        } else {
-            return SyntaxFactory.makeUnknown("")
+    func buildAccessLevel() -> TokenSyntax? {
+        guard let accessLevel = syntax.accessLevel else {
+            return nil
         }
+        
+        return accessLevel.keyword()
     }
 }

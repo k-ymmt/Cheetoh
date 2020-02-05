@@ -47,9 +47,11 @@ public struct Variable<Mutability: VariableMutability>: SyntaxBuildable, AccessC
     
     public func build(format: Format) -> VariableDeclSyntax {
         VariableDeclSyntax {
-            var accessLevel = self.buildAccessLevel()
-            accessLevel.leadingTrivia = .spaces(format.base)
-            $0.addAttribute(accessLevel)
+            $0.addAttribute(SyntaxFactory.makeUnknown("").withLeadingTrivia(.spaces(format.base)))
+            if let accessLevel = self.buildAccessLevel() {
+                $0.addAttribute(accessLevel)
+            }
+            
             $0.useLetOrVarKeyword(Mutability.keyword)
             
             let initializer = buildInitializer(format: format)

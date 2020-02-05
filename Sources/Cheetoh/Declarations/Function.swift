@@ -39,9 +39,11 @@ public struct Function: SyntaxBuildable, AccessControllable, Throwable, Paramete
     
     public func build(format: Format) -> FunctionDeclSyntax {
         FunctionDeclSyntax {
-            let accessLevel = buildAccessLevel()
+            $0.addAttribute(SyntaxFactory.makeUnknown("").withLeadingTrivia(.spaces(format.base)))
+            if let accessLevel = buildAccessLevel() {
+                $0.addAttribute(accessLevel)
+            }
             
-            $0.addAttribute(accessLevel)
             $0.useFuncKeyword(SyntaxFactory.makeFuncKeyword(leadingTrivia: .zero, trailingTrivia: .spaces(1)))
             $0.useIdentifier(SyntaxFactory.makeIdentifier(name))
             if let generics = buildGenericTypeParameters(format: format) {

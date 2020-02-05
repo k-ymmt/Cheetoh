@@ -33,9 +33,11 @@ public struct Struct: SyntaxBuildable, GenericTypeParameters, InheritedTypeProto
     
     public func build(format: Format) -> StructDeclSyntax {
         StructDeclSyntax {
-            var accessLevel = buildAccessLevel()
-            accessLevel.leadingTrivia = .spaces(format.base)
-            $0.addAttribute(accessLevel)
+            $0.addAttribute(SyntaxFactory.makeUnknown("").withLeadingTrivia(.spaces(format.base)))
+            if let accessLevel = buildAccessLevel() {
+                $0.addAttribute(accessLevel)
+            }
+
             $0.useStructKeyword(SyntaxFactory.makeStructKeyword(
                 leadingTrivia: .zero,
                 trailingTrivia: .spaces(1)
