@@ -38,6 +38,11 @@ public struct Variable<Mutability: VariableMutability>: SyntaxBuildable, AccessC
         self.type = type
     }
     
+    public init<Type>(_ name: String, _ type: Type.Type) {
+        self.name = name
+        self.type = TypeIdentifier(String(describing: type))
+    }
+    
     public func environment<V>(_ keyPath: WritableKeyPath<SyntaxValues, V>, _ value: V) -> Variable<Mutability> {
         var variable = self
         variable.syntax[keyPath: keyPath] = value
