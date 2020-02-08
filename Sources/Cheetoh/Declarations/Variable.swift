@@ -33,7 +33,7 @@ public struct Variable<Mutability: VariableMutability>: SyntaxBuildable, AccessC
     private let name: String
     private let type: TypeIdentifier
     
-    public init(name: String, type: TypeIdentifier) {
+    public init(_ name: String, _ type: TypeIdentifier) {
         self.name = name
         self.type = type
     }
