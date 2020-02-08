@@ -75,3 +75,12 @@ extension Variable: DeclMemberProtocol {
         return build(format: format)
     }
 }
+
+extension Variable: SourceFileScopeDeclaration {
+}
+
+extension Variable: CodeBlockItem {
+    public func buildCodeBlockItem(format: Format) -> CodeBlockItemSyntax {
+        SyntaxFactory.makeCodeBlockItem(item: build(format: format), semicolon: nil, errorTokens: nil)
+    }
+}
