@@ -4,10 +4,10 @@ import XCTest
 final class CheetohTests: XCTestCase {
     func testExample() {
         let example = Struct("Foo") {
-            Let(name: "hoge", type: TypeIdentifier("Hoge"))
+            Let("hoge", TypeIdentifier("Hoge"))
             Var(
-                name: "bar",
-                type: TypeIdentifier("Bar")
+                "bar",
+                TypeIdentifier("Bar")
                     .nillable()
                     .genericArguments(TypeIdentifier("Foo"))
             ).accessLevel(.private)
