@@ -17,7 +17,7 @@ SourceFile {
     Newlines()
     
     Let("hoge", TypeIdentifier("Hoge"))
-        .initializer(FunctionCallExpression("Hoge"))
+        .initializer(FunctionCallExpression("Hoge", ["foo": IntLiteralExpression(10)]))
         .accessLevel(.private)
 
     Newlines()
