@@ -60,7 +60,7 @@ public struct Struct: SyntaxBuildable, GenericTypeParameters, InheritedTypeProto
                 for member in members {
                     $0.addMember(MemberDeclListItemSyntax {
                         $0.useDecl(member)
-                    })
+                    }.withTrailingTrivia(.newlines(1)))
                 }
                 
                 $0.useRightBrace(SyntaxFactory.makeRightBraceToken(

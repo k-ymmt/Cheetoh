@@ -56,7 +56,7 @@ public struct Variable<Mutability: VariableMutability>: SyntaxBuildable, AccessC
             
             let initializer = buildInitializer(format: format)
 
-            var binding = SyntaxFactory.makePatternBinding(
+            let binding = SyntaxFactory.makePatternBinding(
                 pattern: SyntaxFactory.makeIdentifierPattern(identifier: SyntaxFactory.makeIdentifier(name)),
                 typeAnnotation: SyntaxFactory.makeTypeAnnotation(
                     colon: SyntaxFactory.makeColonToken(leadingTrivia: .zero, trailingTrivia: .spaces(1)),
@@ -64,7 +64,7 @@ public struct Variable<Mutability: VariableMutability>: SyntaxBuildable, AccessC
                 ),
                 initializer: initializer, accessor: nil, trailingComma: nil
             )
-            binding.trailingTrivia = .newlines(1)
+
             $0.addBinding(binding)
         }
     }
