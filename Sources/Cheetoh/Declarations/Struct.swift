@@ -12,16 +12,16 @@ public struct Struct: SyntaxBuildable, GenericTypeParameters, InheritedTypeProto
     public private(set) var syntax: SyntaxValues = SyntaxValues()
     
     private let name: String
-    private let builder: DeclMemberList
+    private let members: [DeclMemberProtocol]
     
-    public init(_ name: String, @DeclMemberListBuilder builder: () -> DeclMemberList) {
+    public init(_ name: String, @DeclMemberListBuilder builder: () -> [DeclMemberProtocol]) {
         self.name = name
-        self.builder = builder()
+        self.members = builder()
     }
     
-    init(_ name: String, @DeclMemberListBuilder builder: () -> DeclMemberProtocol) {
+    public init(_ name: String, @DeclMemberListBuilder body: () -> DeclMemberProtocol) {
         self.name = name
-        self.builder = DeclMemberList(members: [builder()])
+        self.members = [body()]
     }
     
     public func environment<V>(_ keyPath: WritableKeyPath<SyntaxValues, V>, _ value: V) -> Self {
@@ -56,7 +56,7 @@ public struct Struct: SyntaxBuildable, GenericTypeParameters, InheritedTypeProto
                     leadingTrivia: .spaces(1),
                     trailingTrivia: .newlines(1)
                 ))
-                let members = builder.build(format: format.incrementIndent())
+                let members = self.members.map { $0.buildDeclMember(format: format.incrementIndent()) }
                 for member in members {
                     $0.addMember(MemberDeclListItemSyntax {
                         $0.useDecl(member)

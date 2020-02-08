@@ -14,21 +14,15 @@ public protocol DeclMemberProtocol {
 
 @_functionBuilder
 public struct DeclMemberListBuilder {
-    public static func buildBlock(_ members: DeclMemberProtocol...) -> DeclMemberList {
-        return DeclMemberList(members: members)
+    public static func buildBlock() -> [DeclMemberProtocol] {
+        return []
     }
-    public static func buildExpression(_ member: DeclMemberProtocol) -> DeclMemberList {
-        return DeclMemberList(members: [member])
-    }
-}
 
-public struct DeclMemberList {
-    private let members: [DeclMemberProtocol]
-    public init(members: [DeclMemberProtocol]) {
-        self.members = members
+    public static func buildBlock<Member: DeclMemberProtocol>(_ member: Member) -> DeclMemberProtocol {
+        return member
     }
     
-    public func build(format: Format) -> [DeclSyntax] {
-        return members.map { $0.buildDeclMember(format: format) }
+    public static func buildBlock(_ members: DeclMemberProtocol...) -> [DeclMemberProtocol] {
+        return members
     }
 }
