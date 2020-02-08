@@ -12,17 +12,18 @@ SourceFile {
         Let("hoge", String.self)
             .initializer(StringLiteralExpression("hoge"))
         Var("foo", Int.self)
-    }
+    }.accessLevel(.public)
     
     Newlines()
     
     Let("hoge", TypeIdentifier("Hoge"))
         .initializer(FunctionCallExpression("Hoge"))
+        .accessLevel(.private)
 
     Newlines()
 
     Func("main") {
-        FunctionCallExpression("print", ["": StringLiteralExpression("Hello World!")])
+        FunctionCallExpression("print", [nil: StringLiteralExpression("Hello World!")])
     }
 }.build(format: .init(indent: 4)).write(to: &output)
 

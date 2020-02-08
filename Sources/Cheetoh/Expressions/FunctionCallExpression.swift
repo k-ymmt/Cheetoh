@@ -12,11 +12,11 @@ public struct FunctionCallExpression: SyntaxBuildable, Expression {
     public private(set) var syntax: SyntaxValues = SyntaxValues()
     
     private let identifier: String
-    private let arguments: KeyValuePairs<String, Expression>?
+    private let arguments: KeyValuePairs<String?, Expression>?
     
-    public init(_ identifier: String, _ arguments: KeyValuePairs<String, Expression>? = nil) {
+    public init(_ identifier: String, _ arguments: KeyValuePairs<String?, Expression>? = nil) {
         self.identifier = identifier
-        self.arguments = nil
+        self.arguments = arguments
     }
 
     public func environment<V>(_ keyPath: WritableKeyPath<SyntaxValues, V>, _ value: V) -> Self {
@@ -37,18 +37,24 @@ public struct FunctionCallExpression: SyntaxBuildable, Expression {
 
             if let arguments = arguments, !arguments.isEmpty {
                 let lastIndex = arguments.count - 1
-                for (name, expression) in arguments {
+                for (name, expression) in arguments[0..<lastIndex] {
                     $0.addArgument(FunctionCallArgumentSyntax {
-                        $0.useLabel(SyntaxFactory.makeIdentifier(name))
-                        $0.useColon(SyntaxFactory.makeColonToken(leadingTrivia: .zero, trailingTrivia: .spaces(1)))
+                        if let name = name {
+                            $0.useLabel(SyntaxFactory.makeIdentifier(name))
+                            $0.useColon(SyntaxFactory.makeColonToken(leadingTrivia: .zero, trailingTrivia: .spaces(1)))
+                        }
+
                         $0.useExpression(expression.buildExpression(format: format))
                         $0.useTrailingComma(SyntaxFactory.makeCommaToken(leadingTrivia: .zero, trailingTrivia: .spaces(1)))
                     })
                 }
                 let lastArgument = arguments[lastIndex]
                 $0.addArgument(FunctionCallArgumentSyntax {
-                    $0.useLabel(SyntaxFactory.makeIdentifier(lastArgument.key))
-                    $0.useColon(SyntaxFactory.makeColonToken(leadingTrivia: .zero, trailingTrivia: .spaces(1)))
+                    if let name = lastArgument.key {
+                        $0.useLabel(SyntaxFactory.makeIdentifier(name))
+                        $0.useColon(SyntaxFactory.makeColonToken(leadingTrivia: .zero, trailingTrivia: .spaces(1)))
+                    }
+
                     $0.useExpression(lastArgument.value.buildExpression(format: format))
                 })
             }
