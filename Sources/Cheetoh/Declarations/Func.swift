@@ -8,26 +8,31 @@
 import Foundation
 import SwiftSyntax
 
-protocol CodeBlockItem {
+public protocol CodeBlockItem {
     func buildCodeBlockItem(format: Format) -> CodeBlockItemSyntax
 }
 
 @_functionBuilder
-struct CodeBlockBuilder {
-    static func buildBlock(_ items: CodeBlockItem...) -> [CodeBlockItem] {
+public struct CodeBlockBuilder {
+    public static func buildBlock(_ items: CodeBlockItem...) -> [CodeBlockItem] {
         return items
     }
 }
 
-public struct Function: SyntaxBuildable, AccessControllable, Throwable, Parameters, ReturnType, GenericTypeParameters {
+public struct Func: SyntaxBuildable, AccessControllable, Throwable, Parameters, ReturnType, GenericTypeParameters {
     public var syntax: SyntaxValues = SyntaxValues()
 
     private let name: String
     private let body: [CodeBlockItem]
     
-    init(_ name: String, @CodeBlockBuilder body: () -> [CodeBlockItem]) {
+    public init(_ name: String, @CodeBlockBuilder body: () -> [CodeBlockItem]) {
         self.name = name
         self.body = body()
+    }
+    
+    public init(_ name: String, body: () -> CodeBlockItem) {
+        self.name = name
+        self.body = [body()]
     }
     
     public func environment<V>(_ keyPath: WritableKeyPath<SyntaxValues, V>, _ value: V) -> Self {
@@ -65,16 +70,19 @@ public struct Function: SyntaxBuildable, AccessControllable, Throwable, Paramete
             $0.useBody(CodeBlockSyntax {
                 $0.useLeftBrace(SyntaxFactory.makeLeftBraceToken(leadingTrivia: .spaces(1), trailingTrivia: .newlines(1)))
                 for item in body {
-                    $0.addStatement(item.buildCodeBlockItem(format: format))
+                    $0.addStatement(item.buildCodeBlockItem(format: format.incrementIndent()).withTrailingTrivia(.newlines(1)))
                 }
-                $0.useRightBrace(SyntaxFactory.makeRightBraceToken(leadingTrivia: .newlines(1), trailingTrivia: .newlines(1)))
+                $0.useRightBrace(SyntaxFactory.makeRightBraceToken(leadingTrivia: .spaces(format.base), trailingTrivia: .newlines(1)))
             })
         }
     }
 }
 
-extension Function: DeclMemberProtocol {
+extension Func: DeclMemberProtocol {
     public func buildDeclMember(format: Format) -> DeclSyntax {
         return build(format: format)
     }
+}
+
+extension Func: SourceFileScopeDeclaration {
 }
