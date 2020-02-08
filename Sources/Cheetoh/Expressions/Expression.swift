@@ -47,8 +47,12 @@ extension Substitution: CodeBlockItem {
     }
 }
 
-public protocol Expression {
+public protocol Expression: CodeBlockItem {
     func buildExpression(format: Format) -> ExprSyntax
 }
 
-
+extension Expression {
+    public func buildCodeBlockItem(format: Format) -> CodeBlockItemSyntax {
+        SyntaxFactory.makeCodeBlockItem(item: buildExpression(format: format), semicolon: nil, errorTokens: nil)
+    }
+}
