@@ -71,3 +71,9 @@ public struct Struct: SyntaxBuildable, GenericTypeParameters, InheritedTypeProto
         }
     }
 }
+
+extension Struct: SourceFileScopeDeclaration {
+    public func buildDeclMember(format: Format) -> DeclSyntax {
+        build(format: format)
+    }
+}
