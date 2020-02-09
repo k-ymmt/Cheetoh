@@ -16,6 +16,10 @@ public struct FloatLiteral: SyntaxBuildable, Expression {
     public init(_ text: String) {
         self.text = text
     }
+    
+    public init(_ float: Float) {
+        self.text = String(float)
+    }
 
     public func environment<V>(_ keyPath: WritableKeyPath<SyntaxValues, V>, _ value: V) -> Self {
         var me = self
@@ -30,5 +34,17 @@ public struct FloatLiteral: SyntaxBuildable, Expression {
     
     public func buildExpression(format: Format) -> ExprSyntax {
         build(format: format)
+    }
+}
+
+extension Float: Expression {
+    public func buildExpression(format: Format) -> ExprSyntax {
+        FloatLiteral(self).build(format: format)
+    }
+}
+
+extension Double: Expression {
+    public func buildExpression(format: Format) -> ExprSyntax {
+        FloatLiteral(Float(self)).build(format: format)
     }
 }

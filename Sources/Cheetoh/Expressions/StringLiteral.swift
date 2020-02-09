@@ -32,3 +32,9 @@ public struct StringLiteral: SyntaxBuildable, Expression {
         build(format: format)
     }
 }
+
+extension String: Expression {
+    public func buildExpression(format: Format) -> ExprSyntax {
+        StringLiteral(self).build(format: format)
+    }
+}
