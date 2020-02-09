@@ -8,7 +8,7 @@
 import Foundation
 import SwiftSyntax
 
-public struct FunctionCallExpression: SyntaxBuildable, Expression {
+public struct Call: SyntaxBuildable, Expression {
     public private(set) var syntax: SyntaxValues = SyntaxValues()
     
     private let identifier: String

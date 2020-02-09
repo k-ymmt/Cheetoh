@@ -1,14 +1,14 @@
 //
-//  DoubleLiteralExpression.swift
+//  StringLiteralExpression.swift
 //  Cheetoh
 //
-//  Created by Kazuki Yamamoto on 2020/02/07.
+//  Created by Kazuki Yamamoto on 2020/02/02.
 //
 
 import Foundation
 import SwiftSyntax
 
-public struct FloatLiteralExpression: SyntaxBuildable, Expression {
+public struct StringLiteral: SyntaxBuildable, Expression {
     public private(set) var syntax: SyntaxValues = SyntaxValues()
     
     private let text: String
@@ -24,8 +24,8 @@ public struct FloatLiteralExpression: SyntaxBuildable, Expression {
         return me
     }
     
-    public func build(format: Format) -> FloatLiteralExprSyntax {
-        SyntaxFactory.makeFloatLiteralExpr(floatingDigits: SyntaxFactory.makeIdentifier(text))
+    public func build(format: Format) -> StringLiteralExprSyntax {
+        SyntaxFactory.makeStringLiteralExpr(text)
     }
     
     public func buildExpression(format: Format) -> ExprSyntax {

@@ -10,20 +10,20 @@ SourceFile {
     
     Struct("Hoge") {
         Let("hoge", String.self)
-            .initializer(StringLiteralExpression("hoge"))
+            .initializer(StringLiteral("hoge"))
         Var("foo", Int.self)
     }.accessLevel(.public)
     
     Newlines()
     
     Let("hoge", TypeIdentifier("Hoge"))
-        .initializer(FunctionCallExpression("Hoge", ["foo": IntLiteralExpression(10)]))
+        .initializer(Call("Hoge", ["foo": IntLiteral(10)]))
         .accessLevel(.private)
 
     Newlines()
 
     Func("main") {
-        FunctionCallExpression("print", [nil: StringLiteralExpression("Hello World!")])
+        Call("print", [nil: StringLiteral("Hello World!")])
     }
 }.build(format: .init(indent: 4)).write(to: &output)
 
