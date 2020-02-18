@@ -17,6 +17,10 @@ public struct CodeBlockBuilder {
     public static func buildBlock(_ items: CodeBlockItem...) -> [CodeBlockItem] {
         return items
     }
+    
+    public static func buildBlock<Item: CodeBlockItem>(_ item: Item) -> [CodeBlockItem] {
+        return [item]
+    }
 }
 
 public struct Func: SyntaxBuildable, AccessControllable, Throwable, Parameters, ReturnType, GenericTypeParameters {
@@ -28,11 +32,6 @@ public struct Func: SyntaxBuildable, AccessControllable, Throwable, Parameters, 
     public init(_ name: String, @CodeBlockBuilder body: () -> [CodeBlockItem]) {
         self.name = name
         self.body = body()
-    }
-    
-    public init(_ name: String, body: () -> CodeBlockItem) {
-        self.name = name
-        self.body = [body()]
     }
     
     public func environment<V>(_ keyPath: WritableKeyPath<SyntaxValues, V>, _ value: V) -> Self {
