@@ -31,9 +31,9 @@ public struct Variable<Mutability: VariableMutability>: SyntaxBuildable, AccessC
     public private(set) var syntax: SyntaxValues = SyntaxValues()
     
     private let name: String
-    private let type: TypeIdentifier
+    private let type: TypeIdentifier?
     
-    public init(_ name: String, _ type: TypeIdentifier) {
+    public init(_ name: String, _ type: TypeIdentifier? = nil) {
         self.name = name
         self.type = type
     }
@@ -52,25 +52,25 @@ public struct Variable<Mutability: VariableMutability>: SyntaxBuildable, AccessC
     
     public func build(format: Format) -> VariableDeclSyntax {
         VariableDeclSyntax {
-            $0.addAttribute(SyntaxFactory.makeUnknown("").withLeadingTrivia(.spaces(format.base)))
+            $0.addAttribute(SyntaxFactory.makeUnknown(""))
             if let accessLevel = self.buildAccessLevel() {
                 $0.addAttribute(accessLevel)
             }
             
             $0.useLetOrVarKeyword(Mutability.keyword)
-            
-            let initializer = buildInitializer(format: format)
 
-            let binding = SyntaxFactory.makePatternBinding(
-                pattern: SyntaxFactory.makeIdentifierPattern(identifier: SyntaxFactory.makeIdentifier(name)),
-                typeAnnotation: SyntaxFactory.makeTypeAnnotation(
-                    colon: SyntaxFactory.makeColonToken(leadingTrivia: .zero, trailingTrivia: .spaces(1)),
-                    type: type.build(format: format)
-                ),
-                initializer: initializer, accessor: nil, trailingComma: nil
-            )
-
-            $0.addBinding(binding)
+            $0.addBinding(PatternBindingSyntax {
+                $0.usePattern(SyntaxFactory.makeIdentifierPattern(identifier: SyntaxFactory.makeIdentifier(name)))
+                if let type = type {
+                    $0.useTypeAnnotation(TypeAnnotationSyntax {
+                        $0.useColon(SyntaxFactory.makeColonToken(leadingTrivia: .zero, trailingTrivia: .spaces(1)))
+                        $0.useType(type.build(format: format))
+                    })
+                }
+                if let initializer = buildInitializer(format: format) {
+                    $0.useInitializer(initializer)
+                }
+            })
         }
     }
 }
