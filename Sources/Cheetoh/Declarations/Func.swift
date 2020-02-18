@@ -44,6 +44,7 @@ public struct Func: SyntaxBuildable, AccessControllable, Throwable, Parameters, 
     
     public func build(format: Format) -> FunctionDeclSyntax {
         FunctionDeclSyntax {
+            let incrementedIndentFormat = format.incrementIndent()
             $0.addAttribute(SyntaxFactory.makeUnknown("").withLeadingTrivia(.spaces(format.base)))
             if let accessLevel = buildAccessLevel() {
                 $0.addAttribute(accessLevel)
@@ -70,7 +71,10 @@ public struct Func: SyntaxBuildable, AccessControllable, Throwable, Parameters, 
             $0.useBody(CodeBlockSyntax {
                 $0.useLeftBrace(SyntaxFactory.makeLeftBraceToken(leadingTrivia: .spaces(1), trailingTrivia: .newlines(1)))
                 for item in body {
-                    $0.addStatement(item.buildCodeBlockItem(format: format.incrementIndent()).withTrailingTrivia(.newlines(1)))
+                    $0.addStatement(item.buildCodeBlockItem(format: format)
+                        .withLeadingTrivia(.spaces(incrementedIndentFormat.base))
+                        .withTrailingTrivia(.newlines(1))
+                    )
                 }
                 $0.useRightBrace(SyntaxFactory.makeRightBraceToken(leadingTrivia: .spaces(format.base), trailingTrivia: .newlines(1)))
             })

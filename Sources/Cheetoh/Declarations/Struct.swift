@@ -56,15 +56,18 @@ public struct Struct: SyntaxBuildable, GenericTypeParameters, InheritedTypeProto
                     leadingTrivia: .spaces(1),
                     trailingTrivia: .newlines(1)
                 ))
-                let members = self.members.map { $0.buildDeclMember(format: format.incrementIndent()) }
+                
+                let incrementedFormat = format.incrementIndent()
+                let members = self.members.map { $0.buildDeclMember(format: format) }
                 for member in members {
                     $0.addMember(MemberDeclListItemSyntax {
                         $0.useDecl(member)
-                    }.withTrailingTrivia(.newlines(1)))
+                    }.withLeadingTrivia(.spaces(incrementedFormat.base))
+                    .withTrailingTrivia(.newlines(1)))
                 }
                 
                 $0.useRightBrace(SyntaxFactory.makeRightBraceToken(
-                    leadingTrivia: .zero,
+                    leadingTrivia: .spaces(format.base),
                     trailingTrivia: .newlines(1)
                 ))
             })

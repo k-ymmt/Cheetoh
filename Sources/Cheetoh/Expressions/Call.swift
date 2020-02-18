@@ -31,7 +31,7 @@ public struct Call: SyntaxBuildable, Expression {
             $0.useCalledExpression(SyntaxFactory.makeIdentifierExpr(
                 identifier: SyntaxFactory.makeIdentifier(identifier),
                 declNameArguments: nil
-            ).withLeadingTrivia(.spaces(format.base)))
+            ))
 
             $0.useLeftParen(SyntaxFactory.makeLeftParenToken())
 
