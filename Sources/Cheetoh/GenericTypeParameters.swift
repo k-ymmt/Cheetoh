@@ -63,6 +63,7 @@ extension InheritedTypeProtocol {
         
         
         return TypeInheritanceClauseSyntax {
+            $0.useColon(SyntaxFactory.makeColonToken(leadingTrivia: .zero, trailingTrivia: .spaces(1)))
             let lastIndex = types.count - 1
             for type in types[0..<lastIndex] {
                 $0.addInheritedType(SyntaxFactory.makeInheritedType(
