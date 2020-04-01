@@ -33,7 +33,10 @@ extension ReturnType {
             return nil
         }
         return ReturnClauseSyntax {
-            $0.useArrow(SyntaxFactory.makeArrowToken(leadingTrivia: .zero, trailingTrivia: .spaces(1)))
+            $0.useArrow(SyntaxFactory.makeArrowToken(
+                leadingTrivia: .spaces(1),
+                trailingTrivia: .spaces(1)
+            ))
             $0.useReturnType(type.build(format: format))
         }
     }

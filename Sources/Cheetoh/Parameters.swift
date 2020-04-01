@@ -39,40 +39,8 @@ public struct ParameterVariable: SyntaxBuildable {
     }
 }
 
-extension SyntaxValues {
-    var parameters: [ParameterVariable]? {
-        get {
-            return values[\Self.parameters] as? [ParameterVariable]
-        }
-        set {
-            values[\Self.parameters] = newValue
-        }
-    }
-}
-
-public protocol Parameters: SyntaxBuildable {
-    func parameters(_ parameters: ParameterVariable...) -> SelfType
-}
-
-extension Parameters {
-    public func parameters(_ parameters: ParameterVariable...) -> SelfType {
-        return environment(\.parameters, parameters)
-    }
-    
-    func buildParameters(format: Format) -> ParameterClauseSyntax {
-        ParameterClauseSyntax {
-            $0.useLeftParen(SyntaxFactory.makeLeftParenToken())
-            if let parameters = syntax.parameters {
-                let lastIndex = parameters.count - 1
-                for parameter in parameters[0..<lastIndex] {
-                    var parameter = parameter.build(format: format)
-                    parameter.trailingComma = SyntaxFactory.makeCommaToken(leadingTrivia: .zero, trailingTrivia: .spaces(1))
-                    $0.addParameter(parameter)
-                    
-                }
-                $0.addParameter(parameters[lastIndex].build(format: format))
-            }
-            $0.useRightParen(SyntaxFactory.makeRightParenToken())
-        }
+extension ParameterVariable {
+    init<Type>(_ name: String, type: Type.Type, label: String? = nil) {
+        self.init(name, type: TypeIdentifier(String(describing: type)), label: label)
     }
 }

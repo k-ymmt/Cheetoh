@@ -24,11 +24,23 @@ public struct Identifier: SyntaxBuildable, Expression {
         return me
     }
     
-    public func build(format: Format) -> IdentifierExprSyntax {
-        SyntaxFactory.makeIdentifierExpr(identifier: SyntaxFactory.makeIdentifier(name), declNameArguments: nil)
+    public func build(format: Format) -> ExprSyntax {
+        let identifier = SyntaxFactory.makeIdentifierExpr(
+            identifier: SyntaxFactory.makeIdentifier(name),
+            declNameArguments: nil
+        )
+        if syntax.call != nil {
+            return buildCall(format: format, base: identifier)
+        } else {
+            return identifier
+        }
     }
     
     public func buildExpression(format: Format) -> ExprSyntax {
         build(format: format)
     }
+}
+
+extension Identifier: Callable {
+    
 }
