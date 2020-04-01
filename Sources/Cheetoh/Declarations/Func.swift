@@ -23,15 +23,35 @@ public struct CodeBlockBuilder {
     }
 }
 
-public struct Func: SyntaxBuildable, AccessControllable, Throwable, Parameters, ReturnType, GenericTypeParameters {
+public struct Func: SyntaxBuildable, AccessControllable, Throwable, ReturnType, GenericTypeParameters {
     public var syntax: SyntaxValues = SyntaxValues()
 
     private let name: String
     private let body: [CodeBlockItem]
+    private let parameters: [ParameterVariable]
     
     public init(_ name: String, @CodeBlockBuilder body: () -> [CodeBlockItem]) {
         self.name = name
         self.body = body()
+        self.parameters = []
+    }
+    
+    public init(_ name: String, _ parameters: ParameterVariable..., @CodeBlockBuilder body: () -> [CodeBlockItem]) {
+        self.name = name
+        self.body = body()
+        self.parameters = parameters
+    }
+    
+    public init(_ name: String, @CodeBlockBuilder body: () -> CodeBlockItem) {
+        self.name = name
+        self.body = [body()]
+        self.parameters = []
+    }
+    
+    public init(_ name: String, _ parameters: ParameterVariable..., @CodeBlockBuilder body: () -> CodeBlockItem) {
+        self.name = name
+        self.body = [body()]
+        self.parameters = parameters
     }
     
     public func environment<V>(_ keyPath: WritableKeyPath<SyntaxValues, V>, _ value: V) -> Self {
@@ -58,8 +78,23 @@ public struct Func: SyntaxBuildable, AccessControllable, Throwable, Parameters, 
                 if let throwable = buildThrowable() {
                     $0.useThrowsOrRethrowsKeyword(throwable)
                 }
-                
-                $0.useInput(buildParameters(format: format))
+
+                $0.useInput(ParameterClauseSyntax {
+                    $0.useLeftParen(SyntaxFactory.makeLeftParenToken())
+                    
+                    if !parameters.isEmpty {
+                        let lastIndex = parameters.count - 1
+                        for parameter in parameters[0..<lastIndex] {
+                            var parameter = parameter.build(format: format)
+                            parameter.trailingComma = SyntaxFactory.makeCommaToken(leadingTrivia: .zero, trailingTrivia: .spaces(1))
+                            $0.addParameter(parameter)
+                            
+                        }
+                        $0.addParameter(parameters[lastIndex].build(format: format))
+                    }
+                    
+                    $0.useRightParen(SyntaxFactory.makeRightParenToken())
+                })
                 if let throwable = buildThrowable() {
                     $0.useThrowsOrRethrowsKeyword(throwable)
                 }

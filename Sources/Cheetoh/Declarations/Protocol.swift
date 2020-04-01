@@ -55,12 +55,11 @@ public struct Protocol: SyntaxBuildable, InheritedTypeProtocol, AccessControllab
                 ))
                 
                 let incrementedFormat = format.incrementIndent()
-                let members = self.members.map { $0.buildDeclMember(format: format) }
+                let members = self.members.map { $0.buildDeclMember(format: incrementedFormat) }
                 for member in members {
                     $0.addMember(MemberDeclListItemSyntax {
                         $0.useDecl(member)
-                    }.withLeadingTrivia(.spaces(incrementedFormat.base))
-                    .withTrailingTrivia(.newlines(1)))
+                    })
                 }
                 
                 $0.useRightBrace(SyntaxFactory.makeRightBraceToken(

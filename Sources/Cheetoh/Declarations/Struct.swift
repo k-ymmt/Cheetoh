@@ -13,7 +13,7 @@ public struct Struct: SyntaxBuildable, GenericTypeParameters, InheritedTypeProto
     
     private let name: String
     private let members: [DeclMemberProtocol]
-    
+
     public init(_ name: String, @DeclMemberListBuilder builder: () -> [DeclMemberProtocol]) {
         self.name = name
         self.members = builder()
@@ -58,12 +58,11 @@ public struct Struct: SyntaxBuildable, GenericTypeParameters, InheritedTypeProto
                 ))
                 
                 let incrementedFormat = format.incrementIndent()
-                let members = self.members.map { $0.buildDeclMember(format: format) }
+                let members = self.members.map { $0.buildDeclMember(format: incrementedFormat) }
                 for member in members {
                     $0.addMember(MemberDeclListItemSyntax {
                         $0.useDecl(member)
-                    }.withLeadingTrivia(.spaces(incrementedFormat.base))
-                    .withTrailingTrivia(.newlines(1)))
+                    })
                 }
                 
                 $0.useRightBrace(SyntaxFactory.makeRightBraceToken(
