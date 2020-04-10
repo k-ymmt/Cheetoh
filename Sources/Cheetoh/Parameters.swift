@@ -15,7 +15,7 @@ public struct ParameterVariable: SyntaxBuildable {
     let type: TypeIdentifier
     let label: String?
     
-    init(_ name: String, type: TypeIdentifier, label: String? = nil) {
+    public init(_ name: String, type: TypeIdentifier, label: String? = nil) {
         self.name = name
         self.type = type
         self.label = label
@@ -39,7 +39,7 @@ public struct ParameterVariable: SyntaxBuildable {
     }
 }
 
-extension ParameterVariable {
+public extension ParameterVariable {
     init<Type>(_ name: String, type: Type.Type, label: String? = nil) {
         self.init(name, type: TypeIdentifier(String(describing: type)), label: label)
     }
