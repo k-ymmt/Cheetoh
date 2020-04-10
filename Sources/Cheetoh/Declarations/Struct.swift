@@ -24,7 +24,7 @@ public struct Struct: SyntaxBuildable, GenericTypeParameters, InheritedTypeProto
         self.members = [body()]
     }
     
-    public init(_ name: String, emptyBody: () -> Void) {
+    public init(_ name: String) {
         self.name = name
         self.members = []
     }

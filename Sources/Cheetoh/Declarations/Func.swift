@@ -54,13 +54,13 @@ public struct Func: SyntaxBuildable, AccessControllable, Throwable, ReturnType, 
         self.parameters = parameters
     }
     
-    public init(_ name: String, emptyBody: () -> Void) {
+    public init(_ name: String) {
         self.name = name
         self.body = []
         self.parameters = []
     }
     
-    public init(_ name: String, _ parameters: ParameterVariable..., emptyBody: () -> Void) {
+    public init(_ name: String, _ parameters: ParameterVariable...) {
         self.name = name
         self.body = []
         self.parameters = []

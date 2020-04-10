@@ -24,7 +24,7 @@ public struct Protocol: SyntaxBuildable, InheritedTypeProtocol, AccessControllab
         self.members = [body()]
     }
     
-    public init(_ name: String, emptyBody: () -> Void) {
+    public init(_ name: String) {
         self.name = name
         self.members = []
     }

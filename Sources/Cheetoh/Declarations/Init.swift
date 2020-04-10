@@ -34,12 +34,12 @@ public struct Init: SyntaxBuildable, AccessControllable, Throwable, GenericTypeP
         self.parameters = parameters
     }
     
-    public init(_ parameters: ParameterVariable..., emptyBody: () -> Void) {
+    public init(_ parameters: ParameterVariable...) {
         self.body = []
         self.parameters = parameters
     }
     
-    public init(emptyBody: () -> Void) {
+    public init() {
         self.body = []
         self.parameters = []
     }
