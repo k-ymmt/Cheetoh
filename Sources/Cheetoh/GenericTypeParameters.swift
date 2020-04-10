@@ -47,12 +47,12 @@ extension SyntaxValues {
     }
 }
 
-protocol InheritedTypeProtocol: SyntaxBuildable {
+public protocol InheritedTypeProtocol: SyntaxBuildable {
     func inheritedTypes(_ types: TypeIdentifier...) -> SelfType
 }
 
 extension InheritedTypeProtocol {
-    func inheritedTypes(_ types: TypeIdentifier...) -> SelfType {
+    public func inheritedTypes(_ types: TypeIdentifier...) -> SelfType {
         return environment(\.inheritedTypes, types)
     }
 
