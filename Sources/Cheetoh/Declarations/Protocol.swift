@@ -71,8 +71,11 @@ public struct Protocol: SyntaxBuildable, InheritedTypeProtocol, AccessControllab
     }
 }
 
-extension Protocol: SourceFileScopeDeclaration {
+extension Protocol: DeclMemberProtocol {
     public func buildDeclMember(format: Format) -> DeclSyntax {
         build(format: format)
     }
+}
+
+extension Protocol: SourceFileScopeDeclaration {
 }

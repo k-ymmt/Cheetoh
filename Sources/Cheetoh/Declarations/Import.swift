@@ -34,8 +34,11 @@ public struct Import: SyntaxBuildable {
     }
 }
 
-extension Import: SourceFileScopeDeclaration {
+extension Import: DeclMemberProtocol {
     public func buildDeclMember(format: Format) -> DeclSyntax {
         build(format: format)
     }
+}
+
+extension Import: SourceFileScopeDeclaration {
 }

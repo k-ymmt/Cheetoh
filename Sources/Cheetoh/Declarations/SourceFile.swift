@@ -8,7 +8,14 @@
 import Foundation
 import SwiftSyntax
 
-public protocol SourceFileScopeDeclaration: DeclMemberProtocol {
+public protocol SourceFileScopeDeclaration {
+    func buildSourceFileSyntax(format: Format) -> Syntax
+}
+
+extension SourceFileScopeDeclaration where Self: DeclMemberProtocol {
+    public func buildSourceFileSyntax(format: Format) -> Syntax {
+        buildDeclMember(format: format)
+    }
 }
 
 @_functionBuilder
@@ -38,7 +45,7 @@ public struct SourceFile: SyntaxBuildable {
         SourceFileSyntax {
             for item in list {
                 $0.addStatement(CodeBlockItemSyntax {
-                    $0.useItem(item.buildDeclMember(format: format))
+                    $0.useItem(item.buildSourceFileSyntax(format: format))
                 }.withTrailingTrivia(.newlines(1)))
             }
             $0.useEOFToken(SyntaxFactory.makeUnknown("").withLeadingTrivia(.newlines(1)))
