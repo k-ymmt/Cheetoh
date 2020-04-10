@@ -34,6 +34,16 @@ public struct Init: SyntaxBuildable, AccessControllable, Throwable, GenericTypeP
         self.parameters = parameters
     }
     
+    public init(_ parameters: ParameterVariable..., emptyBody: () -> Void) {
+        self.body = []
+        self.parameters = parameters
+    }
+    
+    public init(emptyBody: () -> Void) {
+        self.body = []
+        self.parameters = []
+    }
+    
     public func environment<V>(_ keyPath: WritableKeyPath<SyntaxValues, V>, _ value: V) -> Self {
         var me = self
         me.syntax[keyPath: keyPath] = value

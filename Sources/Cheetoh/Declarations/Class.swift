@@ -24,6 +24,11 @@ public struct Class: SyntaxBuildable, GenericTypeParameters, InheritedTypeProtoc
         self.members = [body()]
     }
     
+    public init(_ name: String, emptyBody: () -> Void) {
+        self.name = name
+        self.members = []
+    }
+    
     public func environment<V>(_ keyPath: WritableKeyPath<SyntaxValues, V>, _ value: V) -> Self {
         var me = self
         me.syntax[keyPath: keyPath] = value

@@ -29,17 +29,17 @@ public struct Func: SyntaxBuildable, AccessControllable, Throwable, ReturnType, 
     private let name: String
     private let body: [CodeBlockItem]
     private let parameters: [ParameterVariable]
+
+    public init(_ name: String, _ parameters: ParameterVariable..., @CodeBlockBuilder body: () -> [CodeBlockItem]) {
+        self.name = name
+        self.body = body()
+        self.parameters = parameters
+    }
     
     public init(_ name: String, @CodeBlockBuilder body: () -> [CodeBlockItem]) {
         self.name = name
         self.body = body()
         self.parameters = []
-    }
-    
-    public init(_ name: String, _ parameters: ParameterVariable..., @CodeBlockBuilder body: () -> [CodeBlockItem]) {
-        self.name = name
-        self.body = body()
-        self.parameters = parameters
     }
     
     public init(_ name: String, @CodeBlockBuilder body: () -> CodeBlockItem) {
@@ -52,6 +52,18 @@ public struct Func: SyntaxBuildable, AccessControllable, Throwable, ReturnType, 
         self.name = name
         self.body = [body()]
         self.parameters = parameters
+    }
+    
+    public init(_ name: String, emptyBody: () -> Void) {
+        self.name = name
+        self.body = []
+        self.parameters = []
+    }
+    
+    public init(_ name: String, _ parameters: ParameterVariable..., emptyBody: () -> Void) {
+        self.name = name
+        self.body = []
+        self.parameters = []
     }
     
     public func environment<V>(_ keyPath: WritableKeyPath<SyntaxValues, V>, _ value: V) -> Self {
