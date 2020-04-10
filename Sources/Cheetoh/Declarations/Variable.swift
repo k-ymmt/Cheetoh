@@ -27,7 +27,7 @@ public enum VarMutability: VariableMutability {
 public typealias Let = Variable<LetMutability>
 public typealias Var = Variable<VarMutability>
 
-public struct Variable<Mutability: VariableMutability>: SyntaxBuildable, AccessControllable, InitializerProtocol {
+public struct Variable<Mutability: VariableMutability>: SyntaxBuildable, AccessControllable, InitializerProtocol, StaticallyProtocol {
     public private(set) var syntax: SyntaxValues = SyntaxValues()
     
     private let name: String
@@ -55,6 +55,10 @@ public struct Variable<Mutability: VariableMutability>: SyntaxBuildable, AccessC
             $0.addAttribute(SyntaxFactory.makeUnknown("").withLeadingTrivia(.spaces(format.base)))
             if let accessLevel = self.buildAccessLevel() {
                 $0.addAttribute(accessLevel)
+            }
+            
+            if let staticKeyword = buildStatic(format: format) {
+                $0.addAttribute(staticKeyword)
             }
             
             $0.useLetOrVarKeyword(Mutability.keyword)

@@ -23,7 +23,7 @@ public struct CodeBlockBuilder {
     }
 }
 
-public struct Func: SyntaxBuildable, AccessControllable, Throwable, ReturnType, GenericTypeParameters {
+public struct Func: SyntaxBuildable, AccessControllable, Throwable, ReturnType, GenericTypeParameters, StaticallyProtocol {
     public var syntax: SyntaxValues = SyntaxValues()
 
     private let name: String
@@ -67,6 +67,10 @@ public struct Func: SyntaxBuildable, AccessControllable, Throwable, ReturnType, 
             $0.addAttribute(SyntaxFactory.makeUnknown("").withLeadingTrivia(.spaces(format.base)))
             if let accessLevel = buildAccessLevel() {
                 $0.addAttribute(accessLevel)
+            }
+            
+            if let staticKeyword = buildStatic(format: format) {
+                $0.addAttribute(staticKeyword)
             }
             
             $0.useFuncKeyword(SyntaxFactory.makeFuncKeyword(leadingTrivia: .zero, trailingTrivia: .spaces(1)))
