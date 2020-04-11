@@ -63,7 +63,7 @@ public struct Func: SyntaxBuildable, AccessControllable, Throwable, ReturnType, 
     public init(_ name: String, _ parameters: ParameterVariable...) {
         self.name = name
         self.body = []
-        self.parameters = []
+        self.parameters = parameters
     }
     
     public func environment<V>(_ keyPath: WritableKeyPath<SyntaxValues, V>, _ value: V) -> Self {
