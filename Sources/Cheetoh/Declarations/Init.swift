@@ -8,7 +8,7 @@
 import Foundation
 import SwiftSyntax
 
-public struct Init: SyntaxBuildable, AccessControllable, Throwable, GenericTypeParameters {
+public struct Init: SyntaxBuildable, AccessControllable, Throwable, GenericTypeParameters, RequiredInitializerProtocol, OptionalInitializerProtocol {
     public var syntax: SyntaxValues = SyntaxValues()
 
     private let body: [CodeBlockItem]
@@ -60,6 +60,11 @@ public struct Init: SyntaxBuildable, AccessControllable, Throwable, GenericTypeP
             }
             
             $0.useInitKeyword(SyntaxFactory.makeInitKeyword())
+            
+            if let optional = buildOptional() {
+                $0.useOptionalMark(optional)
+            }
+            
             $0.useParameters(ParameterClauseSyntax {
                 $0.useLeftParen(SyntaxFactory.makeLeftParenToken())
                 
