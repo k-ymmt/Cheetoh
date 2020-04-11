@@ -27,7 +27,7 @@ public enum VarMutability: VariableMutability {
 public typealias Let = Variable<LetMutability>
 public typealias Var = Variable<VarMutability>
 
-public struct Variable<Mutability: VariableMutability>: SyntaxBuildable, AccessControllable, InitializerProtocol, StaticallyProtocol {
+public struct Variable<Mutability: VariableMutability>: SyntaxBuildable, AccessControllable, InitializerProtocol, StaticallyProtocol, OverrideProtocol {
     public private(set) var syntax: SyntaxValues = SyntaxValues()
     
     private let name: String
@@ -59,6 +59,10 @@ public struct Variable<Mutability: VariableMutability>: SyntaxBuildable, AccessC
             
             if let staticKeyword = buildStatic(format: format) {
                 $0.addAttribute(staticKeyword)
+            }
+            
+            if let overrideKeyword = buildOverride(format: format) {
+                $0.addAttribute(overrideKeyword)
             }
             
             $0.useLetOrVarKeyword(Mutability.keyword)

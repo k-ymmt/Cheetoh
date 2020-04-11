@@ -8,7 +8,7 @@
 import Foundation
 import SwiftSyntax
 
-public struct Init: SyntaxBuildable, AccessControllable, Throwable, GenericTypeParameters, RequiredInitializerProtocol, OptionalInitializerProtocol {
+public struct Init: SyntaxBuildable, AccessControllable, Throwable, GenericTypeParameters, RequiredInitializerProtocol, OptionalInitializerProtocol, OverrideProtocol {
     public var syntax: SyntaxValues = SyntaxValues()
 
     private let body: [CodeBlockItem]
@@ -57,6 +57,10 @@ public struct Init: SyntaxBuildable, AccessControllable, Throwable, GenericTypeP
                 .withLeadingTrivia(.spaces(format.base)))
             if let accessLevel = buildAccessLevel() {
                 $0.addAttribute(accessLevel)
+            }
+            
+            if let overrideKeyword = buildOverride(format: format) {
+                $0.addAttribute(overrideKeyword)
             }
             
             $0.useInitKeyword(SyntaxFactory.makeInitKeyword())

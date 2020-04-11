@@ -23,7 +23,7 @@ public struct CodeBlockBuilder {
     }
 }
 
-public struct Func: SyntaxBuildable, AccessControllable, Throwable, ReturnType, GenericTypeParameters, StaticallyProtocol {
+public struct Func: SyntaxBuildable, AccessControllable, Throwable, ReturnType, GenericTypeParameters, StaticallyProtocol, OverrideProtocol {
     public var syntax: SyntaxValues = SyntaxValues()
 
     private let name: String
@@ -83,6 +83,10 @@ public struct Func: SyntaxBuildable, AccessControllable, Throwable, ReturnType, 
             
             if let staticKeyword = buildStatic(format: format) {
                 $0.addAttribute(staticKeyword)
+            }
+            
+            if let overrideKeyword = buildOverride(format: format) {
+                $0.addAttribute(overrideKeyword)
             }
             
             $0.useFuncKeyword(SyntaxFactory.makeFuncKeyword(leadingTrivia: .zero, trailingTrivia: .spaces(1)))
