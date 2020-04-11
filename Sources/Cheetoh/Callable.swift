@@ -67,8 +67,26 @@ extension Callable  {
             ))
             $0.useLeftParen(SyntaxFactory.makeLeftParenToken())
             
-            let lastIndex = arguments.count - 1
-            for (name, expression) in arguments[0..<lastIndex] {
+            if !arguments.isEmpty {
+                let lastIndex = arguments.count - 1
+                for (name, expression) in arguments[0..<lastIndex] {
+                    $0.addArgument(FunctionCallArgumentSyntax {
+                        if let name = name {
+                            $0.useLabel(SyntaxFactory.makeIdentifier(name))
+                            $0.useColon(SyntaxFactory.makeColonToken(
+                                leadingTrivia: .zero,
+                                trailingTrivia: .spaces(1)
+                            ))
+                        }
+                        $0.useExpression(expression.buildExpression(format: format))
+                        $0.useTrailingComma(SyntaxFactory.makeCommaToken(
+                            leadingTrivia: .zero,
+                            trailingTrivia: .spaces(1)
+                        ))
+                    })
+                }
+
+                let (name, expression) = arguments[lastIndex]
                 $0.addArgument(FunctionCallArgumentSyntax {
                     if let name = name {
                         $0.useLabel(SyntaxFactory.makeIdentifier(name))
@@ -78,24 +96,9 @@ extension Callable  {
                         ))
                     }
                     $0.useExpression(expression.buildExpression(format: format))
-                    $0.useTrailingComma(SyntaxFactory.makeCommaToken(
-                        leadingTrivia: .zero,
-                        trailingTrivia: .spaces(1)
-                    ))
                 })
             }
-
-            let (name, expression) = arguments[lastIndex]
-            $0.addArgument(FunctionCallArgumentSyntax {
-                if let name = name {
-                    $0.useLabel(SyntaxFactory.makeIdentifier(name))
-                    $0.useColon(SyntaxFactory.makeColonToken(
-                        leadingTrivia: .zero,
-                        trailingTrivia: .spaces(1)
-                    ))
-                }
-                $0.useExpression(expression.buildExpression(format: format))
-            })
+            
             $0.useRightParen(SyntaxFactory.makeRightParenToken())
         }
     }
