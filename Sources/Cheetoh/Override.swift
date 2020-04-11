@@ -33,6 +33,6 @@ extension OverrideProtocol {
             return nil
         }
         
-        return SyntaxFactory.makeUnknown("override")
+        return SyntaxFactory.makeUnknown("override", trailingTrivia: .spaces(1))
     }
 }
