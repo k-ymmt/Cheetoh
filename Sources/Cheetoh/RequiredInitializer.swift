@@ -20,7 +20,7 @@ extension SyntaxValues {
 }
 
 public protocol RequiredInitializerProtocol: SyntaxBuildable {
-    func require() -> SelfType
+    func required() -> SelfType
 }
 
 extension RequiredInitializerProtocol {
