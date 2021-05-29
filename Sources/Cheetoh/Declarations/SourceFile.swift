@@ -18,10 +18,26 @@ extension SourceFileScopeDeclaration where Self: DeclMemberProtocol {
     }
 }
 
-@_functionBuilder
+@resultBuilder
 public struct SourceFileScopeDeclarationListBuilder {
     public static func buildBlock(_ list: SourceFileScopeDeclaration...) -> [SourceFileScopeDeclaration] {
-        list
+        return list
+    }
+
+    public static func buildOptional(_ list: [SourceFileScopeDeclaration]?) -> [SourceFileScopeDeclaration] {
+        return list ?? []
+    }
+
+    public static func buildEither(first list: [SourceFileScopeDeclaration]) -> [SourceFileScopeDeclaration] {
+        return list
+    }
+
+    public static func buildEither(second list: [SourceFileScopeDeclaration]) -> [SourceFileScopeDeclaration] {
+        return list
+    }
+
+    public static func buildArray(_ list: [[SourceFileScopeDeclaration]]) -> [SourceFileScopeDeclaration] {
+        return Array(list.joined())
     }
 }
 

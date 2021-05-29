@@ -12,14 +12,26 @@ public protocol CodeBlockItem {
     func buildCodeBlockItem(format: Format) -> CodeBlockItemSyntax
 }
 
-@_functionBuilder
+@resultBuilder
 public struct CodeBlockBuilder {
     public static func buildBlock(_ items: CodeBlockItem...) -> [CodeBlockItem] {
         return items
     }
-    
-    public static func buildBlock<Item: CodeBlockItem>(_ item: Item) -> [CodeBlockItem] {
-        return [item]
+
+    public static func buildOptional(_ items: [CodeBlockItem]?) -> [CodeBlockItem] {
+        return items ?? []
+    }
+
+    public static func buildEither(first items: [CodeBlockItem]) -> [CodeBlockItem] {
+        return items
+    }
+
+    public static func buildEither(second items: [CodeBlockItem]) -> [CodeBlockItem] {
+        return items
+    }
+
+    public static func buildArray(_ items: [[CodeBlockItem]]) -> [CodeBlockItem] {
+        return Array(items.joined())
     }
 }
 
@@ -40,18 +52,6 @@ public struct Func: SyntaxBuildable, AccessControllable, Throwable, ReturnType, 
         self.name = name
         self.body = body()
         self.parameters = []
-    }
-    
-    public init(_ name: String, @CodeBlockBuilder body: () -> CodeBlockItem) {
-        self.name = name
-        self.body = [body()]
-        self.parameters = []
-    }
-    
-    public init(_ name: String, _ parameters: ParameterVariable..., @CodeBlockBuilder body: () -> CodeBlockItem) {
-        self.name = name
-        self.body = [body()]
-        self.parameters = parameters
     }
     
     public init(_ name: String) {
