@@ -56,6 +56,10 @@ extension InheritedTypeProtocol {
         return environment(\.inheritedTypes, types)
     }
 
+    public func inheritedTypes<T>(_ types: T.Type...) -> SelfType {
+        return environment(\.inheritedTypes, types.map { TypeIdentifier(String(describing: $0)) })
+    }
+
     func buildInheritedTypes(format: Format) -> TypeInheritanceClauseSyntax? {
         guard let types = syntax.inheritedTypes, types.count > 0 else {
             return nil

@@ -22,7 +22,7 @@ class FuncTests: XCTestCase {
             Return("sample")
         }
         .accessLevel(.public)
-        .returnType(TypeIdentifier("String"))
+        .returnType(String.self)
         
         XCTAssertEqual(f.build(format: .init(indent: 4)).description, funcText)
     }

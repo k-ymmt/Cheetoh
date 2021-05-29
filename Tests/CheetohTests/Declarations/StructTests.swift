@@ -38,9 +38,9 @@ class StructTests: XCTestCase {
             
             Func("description") {
                 Return(Identifier("string"))
-            }.returnType(TypeIdentifier("String"))
+            }.returnType(String.self)
         }.accessLevel(.public)
-        .inheritedTypes(TypeIdentifier("CustomStringConvertible"))
+        .inheritedTypes(CustomStringConvertible.self)
         
         XCTAssertEqual(s.build(format: Format(indent: 4)).description, structText)
     }

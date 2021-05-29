@@ -42,5 +42,10 @@ public struct Identifier: SyntaxBuildable, Expression {
 }
 
 extension Identifier: Callable {
-    
+}
+
+extension Identifier: ExpressibleByStringInterpolation {
+    public init(stringLiteral value: String) {
+        self.name = value
+    }
 }

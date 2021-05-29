@@ -27,6 +27,10 @@ extension ReturnType {
     public func returnType(_ type: TypeIdentifier) -> SelfType {
         return environment(\.returnType, type)
     }
+
+    public func returnType<T>(_ type: T.Type) -> SelfType {
+        return environment(\.returnType, .type(type))
+    }
     
     func buildReturnType(format: Format) -> ReturnClauseSyntax? {
         guard let type = syntax.returnType else {

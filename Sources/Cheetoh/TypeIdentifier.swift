@@ -35,3 +35,15 @@ public struct TypeIdentifier: SyntaxBuildable, GenericArgumentsProtocol, Nillabl
         return buildNillableType(type: type)
     }
 }
+
+extension TypeIdentifier: ExpressibleByStringInterpolation {
+    public init(stringLiteral value: String) {
+        self.init(value)
+    }
+}
+
+public extension TypeIdentifier {
+    static func type<T>(_ type: T.Type) -> Self {
+        self.init(String(describing: type))
+    }
+}
