@@ -44,3 +44,17 @@ public extension ParameterVariable {
         self.init(name, type: TypeIdentifier(String(describing: type)), label: label)
     }
 }
+
+public struct ParameterVariableList {
+    let variables: [ParameterVariable]
+
+    public init(_ variables: [ParameterVariable]) {
+        self.variables = variables
+    }
+}
+
+extension ParameterVariableList: ExpressibleByDictionaryLiteral {
+    public init(dictionaryLiteral elements: (String, TypeIdentifier)...) {
+        self.init(elements.map { ParameterVariable($0, type: $1) })
+    }
+}

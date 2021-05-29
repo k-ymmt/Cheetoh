@@ -42,10 +42,10 @@ public struct Func: SyntaxBuildable, AccessControllable, Throwable, ReturnType, 
     private let body: [CodeBlockItem]
     private let parameters: [ParameterVariable]
 
-    public init(_ name: String, _ parameters: ParameterVariable..., @CodeBlockBuilder body: () -> [CodeBlockItem]) {
+    public init(_ name: String, parameters: ParameterVariableList, @CodeBlockBuilder body: () -> [CodeBlockItem]) {
         self.name = name
         self.body = body()
-        self.parameters = parameters
+        self.parameters = parameters.variables
     }
     
     public init(_ name: String, @CodeBlockBuilder body: () -> [CodeBlockItem]) {
@@ -60,10 +60,10 @@ public struct Func: SyntaxBuildable, AccessControllable, Throwable, ReturnType, 
         self.parameters = []
     }
     
-    public init(_ name: String, _ parameters: ParameterVariable...) {
+    public init(_ name: String, parameters: ParameterVariableList) {
         self.name = name
         self.body = []
-        self.parameters = parameters
+        self.parameters = parameters.variables
     }
     
     public func environment<V>(_ keyPath: WritableKeyPath<SyntaxValues, V>, _ value: V) -> Self {

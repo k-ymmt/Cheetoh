@@ -19,9 +19,9 @@ public struct Init: SyntaxBuildable, AccessControllable, Throwable, GenericTypeP
         self.parameters = []
     }
     
-    public init(_ parameters: ParameterVariable..., @CodeBlockBuilder body: () -> [CodeBlockItem]) {
+    public init(_ parameters: ParameterVariableList, @CodeBlockBuilder body: () -> [CodeBlockItem]) {
         self.body = body()
-        self.parameters = parameters
+        self.parameters = parameters.variables
     }
     
     public init(@CodeBlockBuilder body: () -> CodeBlockItem) {
@@ -29,14 +29,14 @@ public struct Init: SyntaxBuildable, AccessControllable, Throwable, GenericTypeP
         self.parameters = []
     }
     
-    public init(_ parameters: ParameterVariable..., @CodeBlockBuilder body: () -> CodeBlockItem) {
+    public init(_ parameters: ParameterVariableList, @CodeBlockBuilder body: () -> CodeBlockItem) {
         self.body = [body()]
-        self.parameters = parameters
+        self.parameters = parameters.variables
     }
     
-    public init(_ parameters: ParameterVariable...) {
+    public init(_ parameters: ParameterVariableList) {
         self.body = []
-        self.parameters = parameters
+        self.parameters = parameters.variables
     }
     
     public init() {

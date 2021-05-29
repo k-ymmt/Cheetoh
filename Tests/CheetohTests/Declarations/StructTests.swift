@@ -31,7 +31,7 @@ class StructTests: XCTestCase {
                 .accessLevel(.private)
             Newlines()
             
-            Init(ParameterVariable("string", type: String.self)) {
+            Init(["string": .type(String.self)]) {
                 Assign(Identifier("self").member("string"), Identifier("string"))
             }
             Newlines()

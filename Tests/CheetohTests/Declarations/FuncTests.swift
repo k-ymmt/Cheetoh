@@ -18,7 +18,7 @@ public func sample(foo: Bar) -> String {
 
 class FuncTests: XCTestCase {
     func testFunc() {
-        let f = Func("sample", ParameterVariable("foo", type: TypeIdentifier("Bar"))) {
+        let f = Func("sample", parameters: ["foo": "Bar"]) {
             Return("sample")
         }
         .accessLevel(.public)
