@@ -14,8 +14,8 @@ public protocol DeclMemberProtocol {
 
 @resultBuilder
 public struct DeclMemberListBuilder {
-    public static func buildBlock(_ members: DeclMemberProtocol...) -> [DeclMemberProtocol] {
-        return members
+    public static func buildBlock(_ members: [DeclMemberProtocol]...) -> [DeclMemberProtocol] {
+        return Array(members.joined())
     }
 
     public static func buildOptional(_ members: [DeclMemberProtocol]?) -> [DeclMemberProtocol] {
@@ -28,6 +28,10 @@ public struct DeclMemberListBuilder {
 
     public static func buildEither(second members: [DeclMemberProtocol]) -> [DeclMemberProtocol] {
         return members
+    }
+
+    public static func buildExpression(_ member: DeclMemberProtocol) -> [DeclMemberProtocol] {
+        return [member]
     }
 
     public static func buildArray(_ members: [[DeclMemberProtocol]]) -> [DeclMemberProtocol] {
