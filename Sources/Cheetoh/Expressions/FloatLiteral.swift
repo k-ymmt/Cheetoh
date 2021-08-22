@@ -33,18 +33,18 @@ public struct FloatLiteral: SyntaxBuildable, Expression {
     }
     
     public func buildExpression(format: Format) -> ExprSyntax {
-        build(format: format)
+        ExprSyntax(build(format: format))
     }
 }
 
 extension Float: Expression {
     public func buildExpression(format: Format) -> ExprSyntax {
-        FloatLiteral(self).build(format: format)
+        ExprSyntax(FloatLiteral(self).build(format: format))
     }
 }
 
 extension Double: Expression {
     public func buildExpression(format: Format) -> ExprSyntax {
-        FloatLiteral(Float(self)).build(format: format)
+        ExprSyntax(FloatLiteral(Float(self)).build(format: format))
     }
 }

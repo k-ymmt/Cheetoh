@@ -35,12 +35,12 @@ public struct Comment: SyntaxBuildable {
 
 extension Comment: CodeBlockItem {
     public func buildCodeBlockItem(format: Format) -> CodeBlockItemSyntax {
-        SyntaxFactory.makeCodeBlockItem(item: build(format: format), semicolon: nil, errorTokens: nil)
+        SyntaxFactory.makeCodeBlockItem(item: Syntax(build(format: format)), semicolon: nil, errorTokens: nil)
     }
 }
 
 extension Comment: SourceFileScopeDeclaration {
     public func buildSourceFileSyntax(format: Format) -> Syntax {
-        build(format: format)
+        Syntax(build(format: format))
     }
 }

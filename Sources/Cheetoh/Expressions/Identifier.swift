@@ -30,9 +30,9 @@ public struct Identifier: SyntaxBuildable, Expression {
             declNameArguments: nil
         )
         if syntax.call != nil {
-            return buildCall(format: format, base: identifier)
+            return buildCall(format: format, base: ExprSyntax(identifier))
         } else {
-            return identifier
+            return ExprSyntax(identifier)
         }
     }
     

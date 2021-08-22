@@ -59,18 +59,36 @@ extension Callable  {
         name: String, arguments: [(String?, Expression)],
         format: Format
     ) -> ExprSyntax {
-        FunctionCallExprSyntax {
-            $0.useCalledExpression(makeMemberAccessExpression(
-                base: base,
-                name: name,
-                format: format
-            ))
-            $0.useLeftParen(SyntaxFactory.makeLeftParenToken())
-            
-            if !arguments.isEmpty {
-                let lastIndex = arguments.count - 1
-                for (name, expression) in arguments[0..<lastIndex] {
-                    $0.addArgument(FunctionCallArgumentSyntax {
+        ExprSyntax(
+            FunctionCallExprSyntax {
+                $0.useCalledExpression(makeMemberAccessExpression(
+                    base: base,
+                    name: name,
+                    format: format
+                ))
+                $0.useLeftParen(SyntaxFactory.makeLeftParenToken())
+
+                if !arguments.isEmpty {
+                    let lastIndex = arguments.count - 1
+                    for (name, expression) in arguments[0..<lastIndex] {
+                        $0.addArgument(TupleExprElementSyntax {
+                            if let name = name {
+                                $0.useLabel(SyntaxFactory.makeIdentifier(name))
+                                $0.useColon(SyntaxFactory.makeColonToken(
+                                    leadingTrivia: .zero,
+                                    trailingTrivia: .spaces(1)
+                                ))
+                            }
+                            $0.useExpression(expression.buildExpression(format: format))
+                            $0.useTrailingComma(SyntaxFactory.makeCommaToken(
+                                leadingTrivia: .zero,
+                                trailingTrivia: .spaces(1)
+                            ))
+                        })
+                    }
+
+                    let (name, expression) = arguments[lastIndex]
+                    $0.addArgument(TupleExprElementSyntax {
                         if let name = name {
                             $0.useLabel(SyntaxFactory.makeIdentifier(name))
                             $0.useColon(SyntaxFactory.makeColonToken(
@@ -79,28 +97,12 @@ extension Callable  {
                             ))
                         }
                         $0.useExpression(expression.buildExpression(format: format))
-                        $0.useTrailingComma(SyntaxFactory.makeCommaToken(
-                            leadingTrivia: .zero,
-                            trailingTrivia: .spaces(1)
-                        ))
                     })
                 }
 
-                let (name, expression) = arguments[lastIndex]
-                $0.addArgument(FunctionCallArgumentSyntax {
-                    if let name = name {
-                        $0.useLabel(SyntaxFactory.makeIdentifier(name))
-                        $0.useColon(SyntaxFactory.makeColonToken(
-                            leadingTrivia: .zero,
-                            trailingTrivia: .spaces(1)
-                        ))
-                    }
-                    $0.useExpression(expression.buildExpression(format: format))
-                })
+                $0.useRightParen(SyntaxFactory.makeRightParenToken())
             }
-            
-            $0.useRightParen(SyntaxFactory.makeRightParenToken())
-        }
+        )
     }
     
     private func makeMemberAccessExpression(
@@ -108,10 +110,12 @@ extension Callable  {
         name: String,
         format: Format
     ) -> ExprSyntax {
-        return MemberAccessExprSyntax {
-            $0.useBase(base)
-            $0.useDot(SyntaxFactory.makeUnknown("."))
-            $0.useName(SyntaxFactory.makeIdentifier(name))
-        }
+        ExprSyntax(
+            MemberAccessExprSyntax {
+                $0.useBase(base)
+                $0.useDot(SyntaxFactory.makeUnknown("."))
+                $0.useName(SyntaxFactory.makeIdentifier(name))
+            }
+        )
     }
 }

@@ -76,17 +76,17 @@ public struct Func: SyntaxBuildable, AccessControllable, Throwable, ReturnType, 
     public func build(format: Format) -> FunctionDeclSyntax {
         FunctionDeclSyntax {
             let incrementedIndentFormat = format.incrementIndent()
-            $0.addAttribute(SyntaxFactory.makeUnknown("").withLeadingTrivia(.spaces(format.base)))
+            $0.addAttribute(Syntax(SyntaxFactory.makeUnknown("").withLeadingTrivia(.spaces(format.base))))
             if let accessLevel = buildAccessLevel() {
-                $0.addAttribute(accessLevel)
+                $0.addAttribute(Syntax(accessLevel))
             }
             
             if let staticKeyword = buildStatic(format: format) {
-                $0.addAttribute(staticKeyword)
+                $0.addAttribute(Syntax(staticKeyword))
             }
             
             if let overrideKeyword = buildOverride(format: format) {
-                $0.addAttribute(overrideKeyword)
+                $0.addAttribute(Syntax(overrideKeyword))
             }
             
             $0.useFuncKeyword(SyntaxFactory.makeFuncKeyword(leadingTrivia: .zero, trailingTrivia: .spaces(1)))
@@ -136,9 +136,9 @@ public struct Func: SyntaxBuildable, AccessControllable, Throwable, ReturnType, 
     }
 }
 
-extension Func: DeclMemberProtocol {
+extension Func: DeclMemberProtocol, EnumDeclMemberProtocol{
     public func buildDeclMember(format: Format) -> DeclSyntax {
-        return build(format: format)
+        DeclSyntax(build(format: format))
     }
 }
 

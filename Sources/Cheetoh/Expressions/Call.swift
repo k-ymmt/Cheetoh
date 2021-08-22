@@ -28,17 +28,17 @@ public struct Call: SyntaxBuildable, Expression {
     
     public func build(format: Format) -> FunctionCallExprSyntax {
         FunctionCallExprSyntax {
-            $0.useCalledExpression(SyntaxFactory.makeIdentifierExpr(
+            $0.useCalledExpression(ExprSyntax(SyntaxFactory.makeIdentifierExpr(
                 identifier: SyntaxFactory.makeIdentifier(identifier),
                 declNameArguments: nil
-            ))
+            )))
 
             $0.useLeftParen(SyntaxFactory.makeLeftParenToken())
 
             if let arguments = arguments, !arguments.isEmpty {
                 let lastIndex = arguments.count - 1
                 for (name, expression) in arguments[0..<lastIndex] {
-                    $0.addArgument(FunctionCallArgumentSyntax {
+                    $0.addArgument(TupleExprElementSyntax {
                         if let name = name {
                             $0.useLabel(SyntaxFactory.makeIdentifier(name))
                             $0.useColon(SyntaxFactory.makeColonToken(leadingTrivia: .zero, trailingTrivia: .spaces(1)))
@@ -49,7 +49,7 @@ public struct Call: SyntaxBuildable, Expression {
                     })
                 }
                 let lastArgument = arguments[lastIndex]
-                $0.addArgument(FunctionCallArgumentSyntax {
+                $0.addArgument(TupleExprElementSyntax {
                     if let name = lastArgument.key {
                         $0.useLabel(SyntaxFactory.makeIdentifier(name))
                         $0.useColon(SyntaxFactory.makeColonToken(leadingTrivia: .zero, trailingTrivia: .spaces(1)))
@@ -64,6 +64,6 @@ public struct Call: SyntaxBuildable, Expression {
     }
     
     public func buildExpression(format: Format) -> ExprSyntax {
-        build(format: format)
+        ExprSyntax(build(format: format))
     }
 }

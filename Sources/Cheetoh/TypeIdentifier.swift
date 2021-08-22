@@ -32,7 +32,7 @@ public struct TypeIdentifier: SyntaxBuildable, GenericArgumentsProtocol, Nillabl
             }
         }
         
-        return buildNillableType(type: type)
+        return buildNillableType(type: TypeSyntax(type))
     }
 }
 

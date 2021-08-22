@@ -14,7 +14,7 @@ public protocol SourceFileScopeDeclaration {
 
 extension SourceFileScopeDeclaration where Self: DeclMemberProtocol {
     public func buildSourceFileSyntax(format: Format) -> Syntax {
-        buildDeclMember(format: format)
+        Syntax(buildDeclMember(format: format))
     }
 }
 

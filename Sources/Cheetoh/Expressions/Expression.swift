@@ -14,6 +14,10 @@ public protocol Expression: CodeBlockItem {
 
 extension Expression {
     public func buildCodeBlockItem(format: Format) -> CodeBlockItemSyntax {
-        SyntaxFactory.makeCodeBlockItem(item: buildExpression(format: format), semicolon: nil, errorTokens: nil)
+        SyntaxFactory.makeCodeBlockItem(
+            item: Syntax(buildExpression(format: format)),
+            semicolon: nil,
+            errorTokens: nil
+        )
     }
 }

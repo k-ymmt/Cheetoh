@@ -52,23 +52,23 @@ public struct Variable<Mutability: VariableMutability>: SyntaxBuildable, AccessC
     
     public func build(format: Format) -> VariableDeclSyntax {
         VariableDeclSyntax {
-            $0.addAttribute(SyntaxFactory.makeUnknown("").withLeadingTrivia(.spaces(format.base)))
+            $0.addAttribute(Syntax(SyntaxFactory.makeUnknown("").withLeadingTrivia(.spaces(format.base))))
             if let accessLevel = self.buildAccessLevel() {
-                $0.addAttribute(accessLevel)
+                $0.addAttribute(Syntax(accessLevel))
             }
             
             if let staticKeyword = buildStatic(format: format) {
-                $0.addAttribute(staticKeyword)
+                $0.addAttribute(Syntax(staticKeyword))
             }
             
             if let overrideKeyword = buildOverride(format: format) {
-                $0.addAttribute(overrideKeyword)
+                $0.addAttribute(Syntax(overrideKeyword))
             }
             
             $0.useLetOrVarKeyword(Mutability.keyword)
 
             $0.addBinding(PatternBindingSyntax {
-                $0.usePattern(SyntaxFactory.makeIdentifierPattern(identifier: SyntaxFactory.makeIdentifier(name)))
+                $0.usePattern(PatternSyntax(SyntaxFactory.makeIdentifierPattern(identifier: SyntaxFactory.makeIdentifier(name))))
                 if let type = type {
                     $0.useTypeAnnotation(TypeAnnotationSyntax {
                         $0.useColon(SyntaxFactory.makeColonToken(leadingTrivia: .zero, trailingTrivia: .spaces(1)))
@@ -83,9 +83,9 @@ public struct Variable<Mutability: VariableMutability>: SyntaxBuildable, AccessC
     }
 }
 
-extension Variable: DeclMemberProtocol {
+extension Variable: DeclMemberProtocol, EnumDeclMemberProtocol {
     public func buildDeclMember(format: Format) -> DeclSyntax {
-        return build(format: format)
+        return DeclSyntax(build(format: format))
     }
 }
 
@@ -94,6 +94,10 @@ extension Variable: SourceFileScopeDeclaration {
 
 extension Variable: CodeBlockItem {
     public func buildCodeBlockItem(format: Format) -> CodeBlockItemSyntax {
-        SyntaxFactory.makeCodeBlockItem(item: build(format: format), semicolon: nil, errorTokens: nil)
+        SyntaxFactory.makeCodeBlockItem(
+            item: Syntax(build(format: format)),
+            semicolon: nil,
+            errorTokens: nil
+        )
     }
 }

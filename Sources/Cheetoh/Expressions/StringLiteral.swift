@@ -29,12 +29,12 @@ public struct StringLiteral: SyntaxBuildable, Expression {
     }
     
     public func buildExpression(format: Format) -> ExprSyntax {
-        build(format: format)
+        ExprSyntax(build(format: format))
     }
 }
 
 extension String: Expression {
     public func buildExpression(format: Format) -> ExprSyntax {
-        StringLiteral(self).build(format: format)
+        ExprSyntax(StringLiteral(self).build(format: format))
     }
 }

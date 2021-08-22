@@ -33,6 +33,6 @@ extension NillableType {
             return type
         }
         
-        return SyntaxFactory.makeOptionalType(wrappedType: type, questionMark: SyntaxFactory.makePostfixQuestionMarkToken())
+        return TypeSyntax(SyntaxFactory.makeOptionalType(wrappedType: type, questionMark: SyntaxFactory.makePostfixQuestionMarkToken()))
     }
 }

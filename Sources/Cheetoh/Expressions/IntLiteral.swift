@@ -33,12 +33,12 @@ public struct IntLiteral: SyntaxBuildable, Expression {
     }
     
     public func buildExpression(format: Format) -> ExprSyntax {
-        build(format: format)
+        ExprSyntax(build(format: format))
     }
 }
 
 extension Int: Expression {
     public func buildExpression(format: Format) -> ExprSyntax {
-        IntLiteral(self).build(format: format)
+        ExprSyntax(IntLiteral(self).build(format: format))
     }
 }

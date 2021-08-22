@@ -32,6 +32,6 @@ public struct Return: SyntaxBuildable, CodeBlockItem {
     }
     
     public func buildCodeBlockItem(format: Format) -> CodeBlockItemSyntax {
-        SyntaxFactory.makeCodeBlockItem(item: build(format: format), semicolon: nil, errorTokens: nil)
+        SyntaxFactory.makeCodeBlockItem(item: Syntax(build(format: format)), semicolon: nil, errorTokens: nil)
     }
 }

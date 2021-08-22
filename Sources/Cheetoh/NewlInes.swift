@@ -31,15 +31,15 @@ public struct Newlines: SyntaxBuildable {
 
 extension Newlines: DeclMemberProtocol {
     public func buildDeclMember(format: Format) -> DeclSyntax {
-        FunctionDeclSyntax {
+        DeclSyntax(FunctionDeclSyntax {
             $0.useIdentifier(build(format: format))
-        }
+        })
     }
 }
 
 extension Newlines: CodeBlockItem {
     public func buildCodeBlockItem(format: Format) -> CodeBlockItemSyntax {
-        SyntaxFactory.makeCodeBlockItem(item: build(format: format), semicolon: nil, errorTokens: nil)
+        SyntaxFactory.makeCodeBlockItem(item: Syntax(build(format: format)), semicolon: nil, errorTokens: nil)
     }
 }
 

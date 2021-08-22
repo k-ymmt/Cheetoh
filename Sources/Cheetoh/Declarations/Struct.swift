@@ -38,9 +38,9 @@ public struct Struct: SyntaxBuildable, GenericTypeParameters, InheritedTypeProto
     
     public func build(format: Format) -> StructDeclSyntax {
         StructDeclSyntax {
-            $0.addAttribute(SyntaxFactory.makeUnknown("").withLeadingTrivia(.spaces(format.base)))
+            $0.addAttribute(Syntax(SyntaxFactory.makeUnknown("").withLeadingTrivia(.spaces(format.base))))
             if let accessLevel = buildAccessLevel() {
-                $0.addAttribute(accessLevel)
+                $0.addAttribute(Syntax(accessLevel))
             }
 
             $0.useStructKeyword(SyntaxFactory.makeStructKeyword(
@@ -79,9 +79,9 @@ public struct Struct: SyntaxBuildable, GenericTypeParameters, InheritedTypeProto
     }
 }
 
-extension Struct: DeclMemberProtocol {
+extension Struct: DeclMemberProtocol, EnumDeclMemberProtocol {
     public func buildDeclMember(format: Format) -> DeclSyntax {
-        build(format: format)
+        DeclSyntax(build(format: format))
     }
 }
 

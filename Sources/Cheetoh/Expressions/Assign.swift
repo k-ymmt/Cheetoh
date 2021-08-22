@@ -29,11 +29,11 @@ public struct Assign: SyntaxBuildable {
     public func build(format: Format) -> SequenceExprSyntax {
         SyntaxFactory.makeSequenceExpr(elements: SyntaxFactory.makeExprList([
             left.buildExpression(format: format),
-            SyntaxFactory.makeAssignmentExpr(assignToken: SyntaxFactory.makeUnknown(
+            ExprSyntax(SyntaxFactory.makeAssignmentExpr(assignToken: SyntaxFactory.makeUnknown(
                 "=",
                 leadingTrivia: .spaces(1),
                 trailingTrivia: .spaces(1)
-            )),
+            ))),
             right.buildExpression(format: format)
         ]))
     }
@@ -42,7 +42,7 @@ public struct Assign: SyntaxBuildable {
 extension Assign: CodeBlockItem {
     public func buildCodeBlockItem(format: Format) -> CodeBlockItemSyntax {
         CodeBlockItemSyntax {
-            $0.useItem(build(format: format))
+            $0.useItem(Syntax(build(format: format)))
         }
     }
 }

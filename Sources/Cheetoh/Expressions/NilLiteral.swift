@@ -26,6 +26,6 @@ public struct NilLiteral: SyntaxBuildable, Expression {
     }
     
     public func buildExpression(format: Format) -> ExprSyntax {
-        build(format: format)
+        ExprSyntax(build(format: format))
     }
 }

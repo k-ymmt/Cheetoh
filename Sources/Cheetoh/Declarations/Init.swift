@@ -53,14 +53,14 @@ public struct Init: SyntaxBuildable, AccessControllable, Throwable, GenericTypeP
     
     public func build(format: Format) -> InitializerDeclSyntax {
         InitializerDeclSyntax {
-            $0.addAttribute(SyntaxFactory.makeUnknown("")
-                .withLeadingTrivia(.spaces(format.base)))
+            $0.addAttribute(Syntax(SyntaxFactory.makeUnknown("")
+                .withLeadingTrivia(.spaces(format.base))))
             if let accessLevel = buildAccessLevel() {
-                $0.addAttribute(accessLevel)
+                $0.addAttribute(Syntax(accessLevel))
             }
             
             if let overrideKeyword = buildOverride(format: format) {
-                $0.addAttribute(overrideKeyword)
+                $0.addAttribute(Syntax(overrideKeyword))
             }
             
             $0.useInitKeyword(SyntaxFactory.makeInitKeyword())
@@ -108,8 +108,8 @@ public struct Init: SyntaxBuildable, AccessControllable, Throwable, GenericTypeP
     }
 }
 
-extension Init: DeclMemberProtocol {
+extension Init: DeclMemberProtocol, EnumDeclMemberProtocol {
     public func buildDeclMember(format: Format) -> DeclSyntax {
-        return build(format: format)
+        DeclSyntax(build(format: format))
     }
 }

@@ -38,9 +38,9 @@ public struct Class: SyntaxBuildable, GenericTypeParameters, InheritedTypeProtoc
     
     public func build(format: Format) -> ClassDeclSyntax {
         ClassDeclSyntax {
-            $0.addAttribute(SyntaxFactory.makeUnknown("").withLeadingTrivia(.spaces(format.base)))
+            $0.addAttribute(Syntax(SyntaxFactory.makeUnknown("").withLeadingTrivia(.spaces(format.base))))
             if let accessLevel = buildAccessLevel() {
-                $0.addAttribute(accessLevel)
+                $0.addAttribute(Syntax(accessLevel))
             }
             
             $0.useClassKeyword(SyntaxFactory.makeClassKeyword(
@@ -81,9 +81,9 @@ public struct Class: SyntaxBuildable, GenericTypeParameters, InheritedTypeProtoc
     }
 }
 
-extension Class: DeclMemberProtocol {
+extension Class: DeclMemberProtocol, EnumDeclMemberProtocol {
     public func buildDeclMember(format: Format) -> DeclSyntax {
-        build(format: format)
+        DeclSyntax(build(format: format))
     }
 }
 

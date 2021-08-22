@@ -34,9 +34,9 @@ public struct Import: SyntaxBuildable {
     }
 }
 
-extension Import: DeclMemberProtocol {
+extension Import: DeclMemberProtocol, EnumDeclMemberProtocol {
     public func buildDeclMember(format: Format) -> DeclSyntax {
-        build(format: format)
+        DeclSyntax(build(format: format))
     }
 }
 
