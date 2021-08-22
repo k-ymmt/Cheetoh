@@ -8,7 +8,7 @@
 import Foundation
 import SwiftSyntax
 
-public struct StringLiteral: SyntaxBuildable, Expression {
+public struct StringLiteral: LiteralProtocol {
     public private(set) var syntax: SyntaxValues = SyntaxValues()
     
     private let text: String
