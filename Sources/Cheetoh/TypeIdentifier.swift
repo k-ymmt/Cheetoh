@@ -42,8 +42,8 @@ extension TypeIdentifier: ExpressibleByStringInterpolation {
     }
 }
 
-public extension TypeIdentifier {
-    static func type<T>(_ type: T.Type) -> Self {
+extension TypeIdentifier {
+    public static func type<T>(_ type: T.Type) -> Self {
         self.init(String(describing: type))
     }
 }
