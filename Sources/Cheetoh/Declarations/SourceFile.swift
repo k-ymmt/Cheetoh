@@ -8,39 +8,6 @@
 import Foundation
 import SwiftSyntax
 
-public protocol SourceFileScopeDeclaration {
-    func buildSourceFileSyntax(format: Format) -> Syntax
-}
-
-extension SourceFileScopeDeclaration where Self: DeclMemberProtocol {
-    public func buildSourceFileSyntax(format: Format) -> Syntax {
-        Syntax(buildDeclMember(format: format))
-    }
-}
-
-@resultBuilder
-public struct SourceFileScopeDeclarationListBuilder {
-    public static func buildBlock(_ list: SourceFileScopeDeclaration...) -> [SourceFileScopeDeclaration] {
-        return list
-    }
-
-    public static func buildOptional(_ list: [SourceFileScopeDeclaration]?) -> [SourceFileScopeDeclaration] {
-        return list ?? []
-    }
-
-    public static func buildEither(first list: [SourceFileScopeDeclaration]) -> [SourceFileScopeDeclaration] {
-        return list
-    }
-
-    public static func buildEither(second list: [SourceFileScopeDeclaration]) -> [SourceFileScopeDeclaration] {
-        return list
-    }
-
-    public static func buildArray(_ list: [[SourceFileScopeDeclaration]]) -> [SourceFileScopeDeclaration] {
-        return Array(list.joined())
-    }
-}
-
 public struct SourceFile: SyntaxBuildable {
     public var syntax: SyntaxValues = SyntaxValues()
     

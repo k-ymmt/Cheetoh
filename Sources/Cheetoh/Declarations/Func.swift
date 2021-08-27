@@ -8,33 +8,6 @@
 import Foundation
 import SwiftSyntax
 
-public protocol CodeBlockItem {
-    func buildCodeBlockItem(format: Format) -> CodeBlockItemSyntax
-}
-
-@resultBuilder
-public struct CodeBlockBuilder {
-    public static func buildBlock(_ items: CodeBlockItem...) -> [CodeBlockItem] {
-        return items
-    }
-
-    public static func buildOptional(_ items: [CodeBlockItem]?) -> [CodeBlockItem] {
-        return items ?? []
-    }
-
-    public static func buildEither(first items: [CodeBlockItem]) -> [CodeBlockItem] {
-        return items
-    }
-
-    public static func buildEither(second items: [CodeBlockItem]) -> [CodeBlockItem] {
-        return items
-    }
-
-    public static func buildArray(_ items: [[CodeBlockItem]]) -> [CodeBlockItem] {
-        return Array(items.joined())
-    }
-}
-
 public struct Func: SyntaxBuildable, AccessControllable, Throwable, ReturnType, GenericTypeParameters, StaticallyProtocol, OverrideProtocol, AttributesAttachable {
     public var syntax: SyntaxValues = SyntaxValues()
 
