@@ -8,7 +8,7 @@
 import Foundation
 import SwiftSyntax
 
-public struct Protocol: SyntaxBuildable, InheritedTypeProtocol, AccessControllable {
+public struct Protocol: SyntaxBuildable, InheritedTypeProtocol, AccessControllable, AttributesAttachable {
     public private(set) var syntax: SyntaxValues = SyntaxValues()
     
     private let name: String

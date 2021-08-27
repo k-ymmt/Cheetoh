@@ -8,7 +8,7 @@
 import Foundation
 import SwiftSyntax
 
-public struct Enum: SyntaxBuildable, GenericTypeParameters, InheritedTypeProtocol, AccessControllable {
+public struct Enum: SyntaxBuildable, GenericTypeParameters, InheritedTypeProtocol, AccessControllable, AttributesAttachable {
 
     public private(set) var syntax: SyntaxValues = SyntaxValues()
 

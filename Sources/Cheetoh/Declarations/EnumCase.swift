@@ -8,7 +8,7 @@
 import Foundation
 import SwiftSyntax
 
-public struct EnumCase: SyntaxBuildable {
+public struct EnumCase: SyntaxBuildable, AttributesAttachable {
     public private(set) var syntax: SyntaxValues = SyntaxValues()
 
     private let name: String
@@ -45,6 +45,9 @@ public struct EnumCase: SyntaxBuildable {
 
     public func build(format: Format) -> EnumCaseDeclSyntax {
         EnumCaseDeclSyntax {
+            if let attributes = buildAttributes(format: format) {
+                $0.addAttribute(Syntax(attributes.withLeadingTrivia(.spaces(format.base))))
+            }
             $0.addAttribute(Syntax(
                 SyntaxFactory
                     .makeUnknown("")

@@ -8,7 +8,7 @@
 import Foundation
 import SwiftSyntax
 
-public struct Class: SyntaxBuildable, GenericTypeParameters, InheritedTypeProtocol, AccessControllable {
+public struct Class: SyntaxBuildable, GenericTypeParameters, InheritedTypeProtocol, AccessControllable, AttributesAttachable {
     public private(set) var syntax: SyntaxValues = SyntaxValues()
     
     private let name: String

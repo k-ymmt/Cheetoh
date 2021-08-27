@@ -8,7 +8,7 @@
 import Foundation
 import SwiftSyntax
 
-public struct Init: SyntaxBuildable, AccessControllable, Throwable, GenericTypeParameters, RequiredInitializerProtocol, OptionalInitializerProtocol, OverrideProtocol {
+public struct Init: SyntaxBuildable, AccessControllable, Throwable, GenericTypeParameters, RequiredInitializerProtocol, OptionalInitializerProtocol, OverrideProtocol, AttributesAttachable {
     public var syntax: SyntaxValues = SyntaxValues()
 
     private let body: [CodeBlockItem]

@@ -27,7 +27,7 @@ public enum VarMutability: VariableMutability {
 public typealias Let = Variable<LetMutability>
 public typealias Var = Variable<VarMutability>
 
-public struct Variable<Mutability: VariableMutability>: SyntaxBuildable, AccessControllable, InitializerProtocol, StaticallyProtocol, OverrideProtocol {
+public struct Variable<Mutability: VariableMutability>: SyntaxBuildable, AccessControllable, InitializerProtocol, StaticallyProtocol, OverrideProtocol, AttributesAttachable {
     public private(set) var syntax: SyntaxValues = SyntaxValues()
     
     private let name: String

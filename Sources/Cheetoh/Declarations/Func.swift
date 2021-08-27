@@ -35,7 +35,7 @@ public struct CodeBlockBuilder {
     }
 }
 
-public struct Func: SyntaxBuildable, AccessControllable, Throwable, ReturnType, GenericTypeParameters, StaticallyProtocol, OverrideProtocol {
+public struct Func: SyntaxBuildable, AccessControllable, Throwable, ReturnType, GenericTypeParameters, StaticallyProtocol, OverrideProtocol, AttributesAttachable {
     public var syntax: SyntaxValues = SyntaxValues()
 
     private let name: String
