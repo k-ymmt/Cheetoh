@@ -42,8 +42,8 @@ public struct Class: SyntaxBuildable, GenericTypeParameters, InheritedTypeProtoc
             if let accessLevel = buildAccessLevel() {
                 $0.addAttribute(Syntax(accessLevel))
             }
-            
-            $0.useClassKeyword(SyntaxFactory.makeClassKeyword(
+
+            $0.useClassOrActorKeyword(SyntaxFactory.makeClassKeyword(
                 leadingTrivia: .zero,
                 trailingTrivia: .spaces(1)
             ))
