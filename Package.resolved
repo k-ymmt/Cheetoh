@@ -3,11 +3,11 @@
     "pins": [
       {
         "package": "SwiftSyntax",
-        "repositoryURL": "https://github.com/apple/swift-syntax.git",
+        "repositoryURL": "https://github.com/apple/swift-syntax",
         "state": {
-          "branch": null,
-          "revision": "2fff9fc25cdc059379b6bd309377cfab45d8520c",
-          "version": "0.50400.0"
+          "branch": "0.50600.0-SNAPSHOT-2022-01-24",
+          "revision": "f8c9d92adebfa25dfc854ecef924f43918d1ebf8",
+          "version": null
         }
       }
     ]
