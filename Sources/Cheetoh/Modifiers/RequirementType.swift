@@ -60,7 +60,8 @@ public struct SameTypeRequirement: SyntaxBuildable {
     public func build(format: Format) -> SameTypeRequirementSyntax {
         SameTypeRequirementSyntax {
             $0.useLeftTypeIdentifier(leftType.build(format: format))
-            $0.useEqualityToken(SyntaxFactory.makeEqualToken(
+            $0.useEqualityToken(SyntaxFactory.makeSpacedBinaryOperator(
+                "==",
                 leadingTrivia: .spaces(1),
                 trailingTrivia: .spaces(1)
             ))
