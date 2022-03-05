@@ -76,8 +76,8 @@ public struct AvailableAttribute: Attribute {
         self.renamed = renamed
     }
 
-    public func buildAttribute(format: Format) -> AttributeSyntax {
-        AttributeSyntax {
+    public func buildAttribute(format: Format) -> Syntax {
+        Syntax(AttributeSyntax {
             $0.useAtSignToken(SyntaxFactory.makeAtSignToken().withLeadingTrivia(.spaces(format.base)))
             $0.useAttributeName(SyntaxFactory.makeIdentifier("available"))
             $0.useLeftParen(SyntaxFactory.makeLeftParenToken())
@@ -182,7 +182,7 @@ public struct AvailableAttribute: Attribute {
             }))
 
             $0.useRightParen(SyntaxFactory.makeRightParenToken(leadingTrivia: .zero, trailingTrivia: .newlines(1)))
-        }
+        })
     }
 }
 

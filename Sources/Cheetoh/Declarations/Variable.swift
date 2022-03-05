@@ -52,7 +52,12 @@ public struct Variable<Mutability: VariableMutability>: SyntaxBuildable, AccessC
     
     public func build(format: Format) -> VariableDeclSyntax {
         VariableDeclSyntax {
-            $0.addAttribute(Syntax(SyntaxFactory.makeUnknown("").withLeadingTrivia(.spaces(format.base))))
+            if let attributes = buildAttributes(format: format) {
+                for attribute in attributes {
+                    $0.addAttribute(attribute)
+                }
+            }
+
             if let accessLevel = self.buildAccessLevel() {
                 $0.addAttribute(Syntax(accessLevel))
             }
@@ -79,7 +84,7 @@ public struct Variable<Mutability: VariableMutability>: SyntaxBuildable, AccessC
                     $0.useInitializer(initializer)
                 }
             }.withTrailingTrivia(.newlines(1)))
-        }
+        }.withLeadingTrivia(.spaces(format.base))
     }
 }
 

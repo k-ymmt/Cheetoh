@@ -20,7 +20,7 @@ extension SyntaxValues {
 }
 
 public protocol Attribute {
-    func buildAttribute(format: Format) -> AttributeSyntax
+    func buildAttribute(format: Format) -> Syntax
 }
 
 public protocol AttributesAttachable: SyntaxBuildable {
