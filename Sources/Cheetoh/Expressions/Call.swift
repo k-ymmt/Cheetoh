@@ -12,9 +12,14 @@ public struct Call: SyntaxBuildable, Expression {
     public private(set) var syntax: SyntaxValues = SyntaxValues()
     
     private let identifier: String
-    private let arguments: KeyValuePairs<String?, Expression>?
+    private let arguments: [(String?, Expression)]?
     
     public init(_ identifier: String, _ arguments: KeyValuePairs<String?, Expression>? = nil) {
+        self.identifier = identifier
+        self.arguments = arguments?.map { ($0, $1) }
+    }
+
+    public init(_ identifier: String, _ arguments: [(String?, Expression)]? = nil) {
         self.identifier = identifier
         self.arguments = arguments
     }
@@ -50,12 +55,12 @@ public struct Call: SyntaxBuildable, Expression {
                 }
                 let lastArgument = arguments[lastIndex]
                 $0.addArgument(TupleExprElementSyntax {
-                    if let name = lastArgument.key {
+                    if let name = lastArgument.0 {
                         $0.useLabel(SyntaxFactory.makeIdentifier(name))
                         $0.useColon(SyntaxFactory.makeColonToken(leadingTrivia: .zero, trailingTrivia: .spaces(1)))
                     }
 
-                    $0.useExpression(lastArgument.value.buildExpression(format: format))
+                    $0.useExpression(lastArgument.1.buildExpression(format: format))
                 })
             }
             
