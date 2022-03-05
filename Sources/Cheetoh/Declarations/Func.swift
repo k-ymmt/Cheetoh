@@ -8,7 +8,7 @@
 import Foundation
 import SwiftSyntax
 
-public struct Func: SyntaxBuildable, AccessControllable, Throwable, ReturnType, GenericTypeParameters, StaticallyProtocol, OverrideProtocol, AttributesAttachable {
+public struct Func: SyntaxBuildable, AccessControllable, Throwable, ReturnType, GenericTypeParameters, StaticallyProtocol, OverrideProtocol, AttributesAttachable, GenericWhereProtocol {
     public var syntax: SyntaxValues = SyntaxValues()
 
     private let name: String
@@ -95,6 +95,11 @@ public struct Func: SyntaxBuildable, AccessControllable, Throwable, ReturnType, 
                     $0.useOutput(returnType)
                 }
             })
+
+            if let genericWhere = buildGenericWhere(format: format) {
+                $0.useGenericWhereClause(genericWhere)
+            }
+
             $0.useBody(CodeBlockSyntax {
                 $0.useLeftBrace(SyntaxFactory.makeLeftBraceToken(leadingTrivia: .spaces(1), trailingTrivia: .newlines(1)))
                 for item in body {

@@ -8,7 +8,7 @@
 import Foundation
 import SwiftSyntax
 
-public struct Enum: SyntaxBuildable, GenericTypeParameters, InheritedTypeProtocol, AccessControllable, AttributesAttachable {
+public struct Enum: SyntaxBuildable, GenericTypeParameters, InheritedTypeProtocol, AccessControllable, AttributesAttachable, GenericWhereProtocol {
 
     public private(set) var syntax: SyntaxValues = SyntaxValues()
 
@@ -61,6 +61,9 @@ public struct Enum: SyntaxBuildable, GenericTypeParameters, InheritedTypeProtoco
             }
             if let inheritedTypes = buildInheritedTypes(format: format) {
                 $0.useInheritanceClause(inheritedTypes)
+            }
+            if let genericWhere = buildGenericWhere(format: format) {
+                $0.useGenericWhereClause(genericWhere)
             }
 
             $0.useMembers(MemberDeclBlockSyntax {

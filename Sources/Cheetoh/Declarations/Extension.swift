@@ -8,7 +8,7 @@
 import Foundation
 import SwiftSyntax
 
-public struct Extension: SyntaxBuildable, InheritedTypeProtocol, AccessControllable, AttributesAttachable {
+public struct Extension: SyntaxBuildable, InheritedTypeProtocol, AccessControllable, AttributesAttachable, GenericWhereProtocol {
     public private(set) var syntax: SyntaxValues = SyntaxValues()
 
     private let type: TypeIdentifier
@@ -52,6 +52,10 @@ public struct Extension: SyntaxBuildable, InheritedTypeProtocol, AccessControlla
 
             if let inheritedTypes = buildInheritedTypes(format: format) {
                 $0.useInheritanceClause(inheritedTypes)
+            }
+
+            if let genericWhere = buildGenericWhere(format: format) {
+                $0.useGenericWhereClause(genericWhere)
             }
 
             $0.useMembers(MemberDeclBlockSyntax {

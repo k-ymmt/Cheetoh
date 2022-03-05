@@ -8,7 +8,7 @@
 import Foundation
 import SwiftSyntax
 
-public struct Init: SyntaxBuildable, AccessControllable, Throwable, GenericTypeParameters, RequiredInitializerProtocol, OptionalInitializerProtocol, OverrideProtocol, AttributesAttachable {
+public struct Init: SyntaxBuildable, AccessControllable, Throwable, GenericTypeParameters, RequiredInitializerProtocol, OptionalInitializerProtocol, OverrideProtocol, AttributesAttachable, GenericWhereProtocol {
     public var syntax: SyntaxValues = SyntaxValues()
 
     private let body: [CodeBlockItem]
@@ -85,6 +85,11 @@ public struct Init: SyntaxBuildable, AccessControllable, Throwable, GenericTypeP
                 
                 $0.useRightParen(SyntaxFactory.makeRightParenToken())
             })
+
+            if let genericWhere = buildGenericWhere(format: format) {
+                $0.useGenericWhereClause(genericWhere)
+            }
+
             $0.useBody(CodeBlockSyntax {
                 $0.useLeftBrace(SyntaxFactory.makeLeftBraceToken(
                     leadingTrivia: .spaces(1),
